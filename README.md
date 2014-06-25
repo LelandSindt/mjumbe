@@ -30,7 +30,7 @@ opkg install python-openssl
 
 Set the API KEY in via messenger.py
 
-Point your browser to http://<Yun IP Address>/cgi-bin/messenger.py you will be prompted to set the GCM API key.
+Point your browser to http://\<Yun IP Address\>/cgi-bin/messenger.py you will be prompted to set the GCM API key.
 
 - Android
 
