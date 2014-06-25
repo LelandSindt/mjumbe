@@ -26,6 +26,7 @@ public class GcmIntentService extends IntentService {
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
+
     public GcmIntentService() {
         super("GcmIntentServices");
     }
@@ -40,7 +41,8 @@ public class GcmIntentService extends IntentService {
 
         if (!extras.isEmpty()) {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                sendNotification(extras.getString("m"));
+
+                sendNotification(extras.getString("message"), extras.getString("messageType", "alert"));
                 Log.i(TAG, "Message: " + extras.toString());
 
             }
@@ -48,7 +50,7 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg) {
+    private void sendNotification(String msg, String msgType) {
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
@@ -56,11 +58,22 @@ public class GcmIntentService extends IntentService {
 
         String ringtone = sharedPrefs.getString("notifications_new_message_ringtone", null);
         Boolean vibrate = sharedPrefs.getBoolean("notifications_new_message_vibrate", true);
+        Boolean alert = true;
 
+        alert = sharedPrefs.getBoolean("notifications_alert_message", true);
+
+        if (msgType.equals("info")) {
+            if (sharedPrefs.getBoolean("notifications_info_message", true)) {
+                alert = true;
+            } else {
+                alert = false;
+            }
+        }
+
+        Log.i(TAG, "alert: " + alert.toString());
         Log.i(TAG, "ringtone: " + ringtone);
         Log.i(TAG, "vibrate: " + vibrate.toString());
-
-
+        Log.i(TAG, "message type: " + msgType);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
@@ -69,7 +82,7 @@ public class GcmIntentService extends IntentService {
                         .bigText(msg))
                 .setWhen(System.currentTimeMillis())
                 .setContentText(msg);
-        if (sharedPrefs.getBoolean("notifications_new_message", true)) {
+        if (alert.equals(true)) {
             if (vibrate) {
                 mBuilder.setVibrate(new long[]{500, 500, 500, 500});
             }

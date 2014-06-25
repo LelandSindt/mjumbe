@@ -9,12 +9,14 @@
     <string name="pref_default_project_id">0</string>
 
     <string name="pref_title_reg_url">Registration URL</string>
-    <string name="pref_default_reg_url">http://127.0.0.1/cgi-bin/arduino/messenger.py</string>
+    <string name="pref_default_reg_url">http://127.0.0.1/cgi-bin/messenger.py</string>
 
 
     <string name="pref_header_notifications">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_alert_message_notifications">Alert message notifications</string>
+    <string name="pref_title_info_message_notifications">Info message notifications</string>
+
 
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>

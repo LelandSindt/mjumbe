@@ -21,20 +21,16 @@ SD Card Directory Structure
 
 Download and Install Python scripts to the Yun
 ``` bash
-curl -k https://raw.githubusercontent.com/geeknam/python-gcm/master/gcm/gcm.py -o /mnt/sda1/arduino/python/gcm.py
-curl -k https://raw.githubusercontent.com/LelandSindt/mjumbe/master/Yun/messenger.py -o /mnt/sda1/arduino/cgi-bin/messenger.py
-ln -s /mnt/sda1/arduino/cgi-bin/messenger.py /www/cgi-bin/messenger.py
+curl -k https://raw.githubusercontent.com/geeknam/python-gcm/master/gcm/gcm.py -o /mnt/sd/arduino/python/gcm.py
+curl -k https://raw.githubusercontent.com/LelandSindt/mjumbe/master/Yun/messenger.py -o /mnt/sd/arduino/cgi-bin/messenger.py
+ln -s /mnt/sd/arduino/cgi-bin/messenger.py /www/cgi-bin/messenger.py
 opkg update
 opkg install python-openssl 
 ```
 
-Update the API KEY in messenger.py
-``` bash
-vi /mnt/sda1/arduino/cgi-bin/messenger.py
-```
-``` python
-API_KEY = "YOUR API KEY"
-```
+Set the API KEY in via messenger.py
+
+Point your browser to http://<Yun IP Address>/cgi-bin/messenger.py you will be prompted to set the GCM API key.
 
 - Android
 
@@ -55,7 +51,7 @@ After the Project ID and Registration URL have been changed the app will registe
 Messages can be sent via the messenger.py http web interface or via the command line. 
 
 ```bash
-python /mnt/sda1/arduino/cgi-bin/messenger.py message=Hello\ World
+python /mnt/sd/arduino/cgi-bin/messenger.py message=Hello\ World\&messagetype=alert
 ```
 
 Note: Registration between your Andorid device and the Yun (messenger.py) should take place over a local network. 
