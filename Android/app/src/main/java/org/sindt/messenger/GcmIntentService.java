@@ -8,17 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import org.sindt.messenger.GcmBroadcastReceiver;
-import org.sindt.messenger.MainActivity;
-import org.sindt.messenger.R;
 
 
 public class GcmIntentService extends IntentService {
@@ -32,23 +26,30 @@ public class GcmIntentService extends IntentService {
     }
 
     public static final String TAG = "MSGR";
+    Messages messages;
+
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         String messageType = gcm.getMessageType(intent);
+        messages = new Messages(this);
 
         if (!extras.isEmpty()) {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
                 sendNotification(extras.getString("message"), extras.getString("messageType", "alert"));
+                messages.insertMessage(extras.getString("message", "message is missing"), extras.getString("messageType", "alert"), "message", System.currentTimeMillis());
                 Log.i(TAG, "Message: " + extras.toString());
 
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
+
+
 
     private void sendNotification(String msg, String msgType) {
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);

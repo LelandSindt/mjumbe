@@ -7,6 +7,12 @@
         android:showAsAction="never" />
     <item android:id="@+id/action_re_register"
         android:title="@string/action_re_register"
-        android:orderInCategory="101"
+        android:orderInCategory="110"
         android:showAsAction="never"/>
+
+    <item android:id="@+id/action_drop_messenger.db"
+        android:title="@string/drop_messenger_db"
+        android:orderInCategory="120"
+        android:showAsAction="never"/>
+
 </menu>

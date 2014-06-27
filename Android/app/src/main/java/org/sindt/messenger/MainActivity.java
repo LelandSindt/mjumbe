@@ -12,8 +12,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
+//import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,6 +32,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -49,17 +52,29 @@ public class MainActivity extends Activity {
 
     String regid;
 
+    private ListView obj;
+    Messages messages;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
-        mDisplay = (TextView) findViewById(R.id.display);
+        //mDisplay = (TextView) findViewById(R.id.display);
+        messages = new Messages(this);
+        ArrayList array_list = messages.getAllMessages();
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
+
+        obj = (ListView)findViewById(R.id.messages);
+        obj.setAdapter(arrayAdapter);
 
 
         if (checkPlayServices()) {
             config_and_reg();
         }
+
+
 
 
     }
@@ -99,6 +114,10 @@ public class MainActivity extends Activity {
             storeRegistrationId(context, "");
             config_and_reg();
             return true;
+        }
+        if (id == R.id.action_drop_messenger_db) {
+            Log.i(TAG, "Drop messenger DB");
+            context.deleteDatabase("messenger.db");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -243,7 +262,7 @@ public class MainActivity extends Activity {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        Log.i(TAG, "Project ID:" + sharedPrefs.getString("project_id", getString(R.string.pref_default_project_id)));
+        //Log.i(TAG, "Project ID:" + sharedPrefs.getString("project_id", getString(R.string.pref_default_project_id)));
         if (sharedPrefs.getString("project_id", getString(R.string.pref_default_project_id)).equals(getString(R.string.pref_default_project_id))) {
 
             Log.i(TAG, "Project ID is default....");

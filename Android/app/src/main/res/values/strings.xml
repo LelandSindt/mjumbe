@@ -8,6 +8,7 @@
     <string name="send">Send</string>
     <string name="clear">Clear</string>
     <string name="register">Register</string>
+    <string name="drop_messenger_db">Clear all Messages</string>
     <string name="get_cfg">Get Config</string>
     <string name="config_url">Configuration URL</string>
     <string name="project_id">Project ID</string>
