@@ -35,30 +35,26 @@ except:
   db.close()
   quit()
   
-gcm = GCM(API_KEY)
-
 try:
   reg_keys = json.loads(db['keys'])
 except:
-  reg_keys = []
+  reg_keys = {}
 
   
 if form.getvalue('add_reg_id') <> None:
-  print "add reg id: " + form.getvalue('add_reg_id')
-  try:
-    index = reg_keys.index(form.getvalue('add_reg_id'))
-  except: 
-    reg_keys.append((form.getvalue('add_reg_id')))
+  if form.getvalue('add_android_id') <> None:
+    print "add andorid id: " + form.getvalue('add_android_id')  + " reg id: " + form.getvalue('add_reg_id')
+    reg_keys[form.getvalue('add_android_id')] = form.getvalue('add_reg_id')
     print "ok"
   
   
-if form.getvalue('del_reg_id') <> None:
-  print "del reg id: " + form.getvalue('del_reg_id')
+if form.getvalue('del_android_id') <> None:
+  print "del android id: " + form.getvalue('del_android_id')
   try:
-    reg_keys.remove(form.getvalue('del_reg_id'))
+    del reg_keys[form.getvalue('del_android_id')]
     print "ok"
   except:
-    print "not registered: " + form.getvalue('del_reg_id') 
+    print "not registered: " + form.getvalue('del_android_id') 
     
   
 
@@ -66,15 +62,27 @@ db['keys'] = json.dumps(reg_keys)
 db.close()  
 
 data = {}
+
+reg_ids = []
+android_ids = []
+
+reg_ids = reg_keys.values()
+android_ids = reg_keys.keys()
+
+if form.getvalue('show_keys') <> None:
+  print str(reg_ids)
+  print str(android_ids)
+  quit()
   
 if form.getvalue('messagetype') <> None:
   data['messageType'] = form.getvalue('messagetype')
   
  
 if form.getvalue('message') <> None:
+ gcm = GCM(API_KEY)
  data['message'] = form.getvalue('message')
  try:
-   response = gcm.json_request(registration_ids=reg_keys, data=data) 
+   response = gcm.json_request(registration_ids=reg_ids, data=data) 
  except:
    print "something went wrong :( -- response: " + response
    

@@ -9,12 +9,12 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
-//import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 
@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
     static final String TAG = "MSGR";
 
     TextView mDisplay;
@@ -61,6 +60,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
+        Log.i(TAG, "Android ID: " + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+
         //mDisplay = (TextView) findViewById(R.id.display);
         messages = new Messages(this);
         ArrayList array_list = messages.getAllMessages();
@@ -217,7 +218,7 @@ public class MainActivity extends Activity {
                 String responseString = null;
                 try {
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    response = httpclient.execute(new HttpGet(sharedPrefs.getString("reg_url", getString(R.string.pref_default_reg_url)) + "?add_reg_id=" + regid));
+                    response = httpclient.execute(new HttpGet(sharedPrefs.getString("reg_url", getString(R.string.pref_default_reg_url)) + "?add_reg_id=" + regid + "&add_android_id=" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)));
                     StatusLine statusLine = response.getStatusLine();
                     if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                         ByteArrayOutputStream out = new ByteArrayOutputStream();

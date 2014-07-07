@@ -20,7 +20,8 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
         bindPreferenceSummaryToValue(findPreference("project_id"));
         bindPreferenceSummaryToValue(findPreference("reg_url"));
-        bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+        bindPreferenceSummaryToValue(findPreference("notifications_alert_ringtone"));
+        bindPreferenceSummaryToValue(findPreference("notifications_info_ringtone"));
     }
 
     private static void bindPreferenceSummaryToValue(Preference preference) {

@@ -57,18 +57,26 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String ringtone = sharedPrefs.getString("notifications_new_message_ringtone", null);
-        Boolean vibrate = sharedPrefs.getBoolean("notifications_new_message_vibrate", true);
-        Boolean alert = true;
+        Boolean show = false;
+        Boolean alert = false;
+        String ringtone = null;
+        Boolean vibrate = true;
+        int NOTIFICATION_ID = 0;
 
-        alert = sharedPrefs.getBoolean("notifications_alert_message", true);
+        if (msgType.equals("info") && sharedPrefs.getBoolean("notifications_info_message", false)) {
+            alert = true;
+            show = sharedPrefs.getBoolean("notifications_info_show", false);
+            ringtone = sharedPrefs.getString("notifications_info_ringtone", null);
+            vibrate = sharedPrefs.getBoolean("notifications_info_vibrate", false);
+            NOTIFICATION_ID = 1;
+        }
 
-        if (msgType.equals("info")) {
-            if (sharedPrefs.getBoolean("notifications_info_message", true)) {
-                alert = true;
-            } else {
-                alert = false;
-            }
+        if (msgType.equals("alert") && sharedPrefs.getBoolean("notifications_alert_message", true)) {
+            alert = true;
+            show = sharedPrefs.getBoolean("notifications_alert_show", true);
+            ringtone = sharedPrefs.getString("notifications_alert_ringtone", null);
+            vibrate = sharedPrefs.getBoolean("notifications_alert_vibrate", true);
+            NOTIFICATION_ID = 2;
         }
 
         Log.i(TAG, "alert: " + alert.toString());
@@ -76,22 +84,29 @@ public class GcmIntentService extends IntentService {
         Log.i(TAG, "vibrate: " + vibrate.toString());
         Log.i(TAG, "message type: " + msgType);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Messenger")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(msg))
-                .setWhen(System.currentTimeMillis())
-                .setContentText(msg);
-        if (alert.equals(true)) {
-            if (vibrate) {
-                mBuilder.setVibrate(new long[]{500, 500, 500, 500});
-            }
-            mBuilder.setSound(Uri.parse(ringtone));
+        if (alert) {
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .setContentTitle("mujmbe: " + msgType)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(msg))
+                    .setWhen(System.currentTimeMillis())
+                    .setContentText(msg);
+
+                if (vibrate) {
+                    mBuilder.setVibrate(new long[]{500, 500, 500, 500});
+                }
+                if (!ringtone.equals(null)) {
+                    mBuilder.setSound(Uri.parse(ringtone));
+                }
+
+
+            mBuilder.setContentIntent(contentIntent);
+            mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
         }
 
-        mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         //Log.i(TAG, "sendNotification: " + msg);
 
 

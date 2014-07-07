@@ -29,20 +29,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_header_notifications"
+        android:title="@string/pref_alert_header_notifications"
         android:key="second_category">
 
 
-    <!-- A 'parent' preference, which enables/disables child preferences (below)
-     when checked/unchecked. -->
+    <!-- Alert Message Type -->
     <CheckBoxPreference
         android:key="notifications_alert_message"
-        android:title="@string/pref_title_alert_message_notifications"
+        android:title="@string/pref_alert_message_notifications"
         android:defaultValue="true" />
 
     <CheckBoxPreference
-        android:key="notifications_info_message"
-        android:title="@string/pref_title_info_message_notifications"
+        android:key="notifications_alert_show"
+        android:title="@string/pref_alert_show"
         android:dependency="notifications_alert_message"
         android:defaultValue="true" />
 
@@ -52,17 +51,55 @@
     <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
     <RingtonePreference
         android:dependency="notifications_alert_message"
-        android:key="notifications_new_message_ringtone"
-        android:title="@string/pref_title_ringtone"
+        android:key="notifications_alert_ringtone"
+        android:title="@string/pref_alert_ringtone"
         android:ringtoneType="notification"
         android:defaultValue="content://settings/system/notification_sound" />
 
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
     <CheckBoxPreference
         android:dependency="notifications_alert_message"
-        android:key="notifications_new_message_vibrate"
-        android:title="@string/pref_title_vibrate"
+        android:key="notifications_alert_vibrate"
+        android:title="@string/pref_alert_vibrate"
         android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_info_header_notifications"
+        android:key="third_category">
+
+
+        <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+        <CheckBoxPreference
+            android:key="notifications_info_message"
+            android:title="@string/pref_info_message_notifications"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:key="notifications_info_show"
+            android:title="@string/pref_info_show"
+            android:dependency="notifications_info_message"
+            android:defaultValue="true" />
+
+
+        <!-- Allows the user to choose a ringtone in the 'notification' category. -->
+        <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+        <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
+        <RingtonePreference
+            android:dependency="notifications_info_message"
+            android:key="notifications_info_ringtone"
+            android:title="@string/pref_info_ringtone"
+            android:ringtoneType="notification"
+            android:defaultValue="content://settings/system/notification_sound" />
+
+        <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+        <CheckBoxPreference
+            android:dependency="notifications_info_message"
+            android:key="notifications_new_message_vibrate"
+            android:title="@string/pref_info_vibrate"
+            android:defaultValue="true" />
 
     </PreferenceCategory>
 
