@@ -58,25 +58,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
-        Log.i(TAG, "Android ID: " + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
-
-        //mDisplay = (TextView) findViewById(R.id.display);
-        messages = new Messages(this);
-        ArrayList array_list = messages.getAllMessages();
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
-
-        obj = (ListView)findViewById(R.id.messages);
-        obj.setAdapter(arrayAdapter);
-
-
-        if (checkPlayServices()) {
-            config_and_reg();
-        }
-
-
-
 
     }
 
@@ -87,6 +69,13 @@ public class MainActivity extends Activity {
         if (checkPlayServices()) {
             config_and_reg();
         }
+        setContentView(R.layout.activity_main);
+        messages = new Messages(this);
+        ArrayList array_list = messages.getAllMessages();
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
+
+        obj = (ListView)findViewById(R.id.messages);
+        obj.setAdapter(arrayAdapter);
 
     }
 
@@ -268,6 +257,7 @@ public class MainActivity extends Activity {
 
             Log.i(TAG, "Project ID is default....");
             Intent intent = new Intent(this, SettingsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             this.startActivity(intent);
             return;
 
@@ -277,6 +267,7 @@ public class MainActivity extends Activity {
 
             Log.i(TAG, "registration url is default....");
             Intent intent = new Intent(this, SettingsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             this.startActivity(intent);
             return;
 

@@ -39,11 +39,11 @@
         android:title="@string/pref_alert_message_notifications"
         android:defaultValue="true" />
 
-    <CheckBoxPreference
+    <!--<CheckBoxPreference
         android:key="notifications_alert_show"
         android:title="@string/pref_alert_show"
         android:dependency="notifications_alert_message"
-        android:defaultValue="true" />
+        android:defaultValue="true" /> -->
 
 
     <!-- Allows the user to choose a ringtone in the 'notification' category. -->
@@ -77,11 +77,11 @@
             android:title="@string/pref_info_message_notifications"
             android:defaultValue="false" />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="notifications_info_show"
             android:title="@string/pref_info_show"
             android:dependency="notifications_info_message"
-            android:defaultValue="true" />
+            android:defaultValue="true" /> -->
 
 
         <!-- Allows the user to choose a ringtone in the 'notification' category. -->

@@ -69,14 +69,22 @@ android_ids = []
 reg_ids = reg_keys.values()
 android_ids = reg_keys.keys()
 
+if len(reg_ids) == 0:
+  print "<html> "
+  print "  <head> <h1> mjumbe -- No devices registered... </h1> </head>"
+  print "</html>"
+  quit()
+
 if form.getvalue('show_keys') <> None:
+  print "<html> <body>"
   print str(reg_ids)
+  print "<br>"
   print str(android_ids)
+  print "</body> </html>"
   quit()
   
 if form.getvalue('messagetype') <> None:
   data['messageType'] = form.getvalue('messagetype')
-  
  
 if form.getvalue('message') <> None:
  gcm = GCM(API_KEY)
@@ -84,7 +92,7 @@ if form.getvalue('message') <> None:
  try:
    response = gcm.json_request(registration_ids=reg_ids, data=data) 
  except:
-   print "something went wrong :( -- response: " + response
+   print "something went wrong :( "
    
 if form.getvalue('del_reg_id') == None and form.getvalue('add_reg_id') == None:   
   print "<html> "

@@ -57,7 +57,7 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        Boolean show = false;
+        //Boolean show = false;
         Boolean alert = false;
         String ringtone = null;
         Boolean vibrate = true;
@@ -65,7 +65,7 @@ public class GcmIntentService extends IntentService {
 
         if (msgType.equals("info") && sharedPrefs.getBoolean("notifications_info_message", false)) {
             alert = true;
-            show = sharedPrefs.getBoolean("notifications_info_show", false);
+            //show = sharedPrefs.getBoolean("notifications_info_show", false);
             ringtone = sharedPrefs.getString("notifications_info_ringtone", null);
             vibrate = sharedPrefs.getBoolean("notifications_info_vibrate", false);
             NOTIFICATION_ID = 1;
@@ -73,7 +73,7 @@ public class GcmIntentService extends IntentService {
 
         if (msgType.equals("alert") && sharedPrefs.getBoolean("notifications_alert_message", true)) {
             alert = true;
-            show = sharedPrefs.getBoolean("notifications_alert_show", true);
+            //show = sharedPrefs.getBoolean("notifications_alert_show", true);
             ringtone = sharedPrefs.getString("notifications_alert_ringtone", null);
             vibrate = sharedPrefs.getBoolean("notifications_alert_vibrate", true);
             NOTIFICATION_ID = 2;
