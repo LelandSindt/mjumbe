@@ -14,6 +14,9 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
@@ -40,8 +43,8 @@ public class GcmIntentService extends IntentService {
         if (!extras.isEmpty()) {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
-                sendNotification(extras.getString("message"), extras.getString("messageType", "alert"));
-                messages.insertMessage(extras.getString("message", "message is missing"), extras.getString("messageType", "alert"), "message", System.currentTimeMillis());
+                sendNotification(extras.getString("message"), extras.getString("messageType", "alert"),Long.parseLong(extras.getString("ctm",Long.toString(System.currentTimeMillis()))));
+                messages.insertMessage(extras.getString("message", "message is missing"), extras.getString("messageType", "alert"), "message", extras.getString("ctm",Long.toString(System.currentTimeMillis())));
                 Log.i(TAG, "Message: " + extras.toString());
 
             }
@@ -51,7 +54,7 @@ public class GcmIntentService extends IntentService {
 
 
 
-    private void sendNotification(String msg, String msgType) {
+    private void sendNotification(String msg, String msgType, long ctm) {
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
@@ -62,6 +65,8 @@ public class GcmIntentService extends IntentService {
         String ringtone = null;
         Boolean vibrate = true;
         int NOTIFICATION_ID = 0;
+
+
 
         if (msgType.equals("info") && sharedPrefs.getBoolean("notifications_info_message", false)) {
             alert = true;
@@ -91,7 +96,7 @@ public class GcmIntentService extends IntentService {
                     .setContentTitle("mujmbe: " + msgType)
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText(msg))
-                    .setWhen(System.currentTimeMillis())
+                    .setWhen(ctm)
                     .setContentText(msg);
 
                 if (vibrate) {

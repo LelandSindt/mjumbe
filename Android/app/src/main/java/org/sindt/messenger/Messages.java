@@ -50,7 +50,7 @@ public class Messages extends SQLiteOpenHelper {
         //onCreate(db);
     }
 
-    public boolean insertMessage(String message, String messagetype, String messagetitle, Long datetime)
+    public boolean insertMessage(String message, String messagetype, String messagetitle, String datetime)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

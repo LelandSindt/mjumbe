@@ -2,6 +2,7 @@
 
 import sys
 import time
+import calendar
 import cgi
 import anydbm
 import json
@@ -89,6 +90,7 @@ if form.getvalue('messagetype') <> None:
 if form.getvalue('message') <> None:
  gcm = GCM(API_KEY)
  data['message'] = form.getvalue('message')
+ data['ctm'] = calendar.timegm(time.gmtime()) * 1000 # Current Time Millis
  try:
    response = gcm.json_request(registration_ids=reg_ids, data=data) 
  except:
